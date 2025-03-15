@@ -1,0 +1,44 @@
+[
+    {
+        "_id": {"$oid": "67bdc07bd1b3c316ac1ecf28"},
+        "email": "nivetha.j@skillrank.io",
+        "role": "Guard",
+        "location": "Tampa",
+        "status": "active",
+        "createdAt": {"$date": "2025-02-25T13:07:07.573Z"}
+    },
+    {
+        "_id": {"$oid": "67c6bafaa4a01e90ca44097a"},
+        "email": "ganesh@skillrank.io",
+        "role": "Manager",
+        "location": "New Jersey",
+        "status": "active",
+        "createdAt": {"$date": "2025-03-04T08:34:02.143Z"},
+        "fcmToken": "cVp5iAOITeiwcr-TVwo-pa:APA91bHPVckChk5APeY3tWd6V8kup-b5PS1ZYVqzJNZgP8HYZIs3iaXF7wJSms1_0NAJwt-A5iIzneiqOn-zdesunaeRKsbvJsXytp3YTkw2yMvudO0xVQA"
+    },
+    {
+        "_id": {"$oid": "67bdcde27c642e2f9b2dc430"},
+        "email": "alfas.m@skillrank.io",
+        "role": "Manager",
+        "location": "Tampa",
+        "status": "active",
+        "createdAt": {"$date": "2025-02-25T14:04:18.716Z"},
+        "fcmToken": "dR0nnT6uT1mW7TKKYww4jz:APA91bGpmVq8PzR-_ja8ZS2sGUyEcCJpoI-MiM7aOtKkr0QY6QdiERW2RZhOT-lmI_e9YTWXPCoOcrNXkeIqkQdzGcrK4ECqM2LKBQ24tR-FvEc6ODi-fb0"
+    },
+    {
+        "_id": {"$oid": "67ce8ff3165956dd81bcdfd9"},
+        "email": "guard1@example.com",
+        "role": "Guard",
+        "location": "New York",
+        "status": "active",
+        "createdAt": {"$date": "2025-03-10T10:00:00.000Z"}
+    },
+    {
+        "_id": {"$oid": "67d1bbd9953ba6105491c804"},
+        "email": "guard2@example.com",
+        "role": "Guard",
+        "location": "Texas",
+        "status": "active",
+        "createdAt": {"$date": "2025-03-12T09:00:00.000Z"}
+    }
+]

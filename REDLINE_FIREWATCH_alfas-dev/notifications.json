@@ -1,0 +1,187 @@
+{
+    "_id" : ObjectId("67bda3904e67a9146276814c"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bd942efd04363bda9220b6",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T11:03:44.761+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdc203e3d5764b1feaed66"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdbc76b4b32b95781fa6e4",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T13:13:39.684+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdc23ce3d5764b1feaed68"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdbc76b4b32b95781fa6e4",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T13:14:36.534+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdc266e3d5764b1feaed6a"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdbc76b4b32b95781fa6e4",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T13:15:18.590+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdcf9721a361ef3dd473c5"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:11:35.114+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd09e21a361ef3dd473c7"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:15:58.849+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd0af21a361ef3dd473c9"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:16:15.409+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd0bf21a361ef3dd473cb"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:16:31.769+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd0e421a361ef3dd473cd"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:17:08.453+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd10e21a361ef3dd473cf"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:17:50.500+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd12721a361ef3dd473d1"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:18:15.194+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd13821a361ef3dd473d3"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:18:32.311+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd19b21a361ef3dd473d5"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:20:11.974+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd1a721a361ef3dd473d7"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:20:23.689+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd1b621a361ef3dd473d9"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:20:38.292+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd24b21a361ef3dd473db"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:23:07.135+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}
+{
+    "_id" : ObjectId("67bdd34321a361ef3dd473dd"),
+    "sender_id" : "12345",
+    "recepient_id" : "67bdcde27c642e2f9b2dc430",
+    "shift_id" : "shift123",
+    "message" : "🚨 EMERGENCY: Test User has initiated a 911 emergency call. Immediate attention required!",
+    "status" : "initiated",
+    "created_at" : ISODate("2025-02-25T14:27:15.468+0000"),
+    "type" : "911CallAlertToManager",
+    "priority" : "high"
+}

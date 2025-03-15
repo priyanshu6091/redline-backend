@@ -1,0 +1,115 @@
+[
+    {
+        "_id": {"$oid": "67d017b3fac1e2ef70e5c8f6"},
+        "userID": "67ce8ff3165956dd81bcdfd9",
+        "jobID": "67ce9494a968a4938f86f8f3",
+        "managerID": {"$oid": "67c6bafaa4a01e90ca44097a"},
+        "currentTime": {"$date": "2025-03-11T11:00:03.267Z"},
+        "endTime": null,
+        "steps": 0,
+        "coordinates": [],
+        "status": "Active",
+        "createdAt": {"$date": "2025-03-11T11:00:03.267Z"},
+        "updatedAt": {"$date": "2025-03-11T11:00:03.267Z"},
+        "images": []
+    },
+    {
+        "_id": {"$oid": "67d2b6d61910bbdfbe6d0a4d"},
+        "userID": "67d1bbd9953ba6105491c804",
+        "jobID": "67cec592da118846d7fd2393",
+        "managerID": {"$oid": "67bdcde27c642e2f9b2dc430"},
+        "currentTime": {"$date": "2025-03-13T10:43:34.181Z"},
+        "endTime": null,
+        "steps": 50,
+        "coordinates": [
+            {
+                "latitude": 11.08344611,
+                "longitude": 75.95898279,
+                "timestamp": {"$date": "2025-03-13T10:52:50.262Z"}
+            },
+            {
+                "latitude": 11.08353166,
+                "longitude": 75.95892407,
+                "timestamp": {"$date": "2025-03-13T11:02:29.668Z"}
+            }
+        ],
+        "status": "Active",
+        "createdAt": {"$date": "2025-03-13T10:43:34.181Z"},
+        "updatedAt": {"$date": "2025-03-13T10:43:34.181Z"},
+        "images": [],
+        "lastUpdated": {"$date": "2025-03-13T11:03:00.643Z"}
+    },
+    {
+        "_id": {"$oid": "67d2c03ac555977b9ac93b2d"},
+        "userID": "67bdcde27c642e2f9b2dc430",
+        "jobID": "67d2c0164e5b6428b3035691",
+        "managerID": {"$oid": "67bdcde27c642e2f9b2dc430"},
+        "currentTime": {"$date": "2025-03-13T11:23:38.789Z"},
+        "endTime": "2025-03-13T11:25:02.956296Z",
+        "steps": 20,
+        "coordinates": [],
+        "status": "Inactive",
+        "createdAt": {"$date": "2025-03-13T11:23:38.789Z"},
+        "updatedAt": {"$date": "2025-03-13T11:23:38.789Z"},
+        "images": [],
+        "lastUpdated": {"$date": "2025-03-13T11:24:58.102Z"}
+    },
+    {
+        "_id": {"$oid": "67d2c434cc3a3461f149b32c"},
+        "userID": "67bdcde27c642e2f9b2dc430",
+        "jobID": "67d2c0164e5b6428b3035691",
+        "managerID": {"$oid": "67bdcde27c642e2f9b2dc430"},
+        "currentTime": {"$date": "2025-03-13T11:40:36.035Z"},
+        "endTime": "2025-03-13T11:41:01.831256Z",
+        "steps": 0,
+        "coordinates": [],
+        "status": "Inactive",
+        "createdAt": {"$date": "2025-03-13T11:40:36.035Z"},
+        "updatedAt": {"$date": "2025-03-13T11:40:36.035Z"},
+        "images": []
+    },
+    {
+        "_id": {"$oid": "67d2d5544f3022f271bcc82e"},
+        "userID": "67bdcde27c642e2f9b2dc430",
+        "jobID": "67d2c55e720d05e71f40e381",
+        "managerID": {"$oid": "67bdcde27c642e2f9b2dc430"},
+        "currentTime": {"$date": "2025-03-13T12:53:40.659Z"},
+        "endTime": "2025-03-13T13:52:44.419230Z",
+        "steps": 0,
+        "coordinates": [],
+        "status": "Inactive",
+        "createdAt": {"$date": "2025-03-13T12:53:40.659Z"},
+        "updatedAt": {"$date": "2025-03-13T12:53:40.659Z"},
+        "images": []
+    },
+    {
+        "_id": {"$oid": "67d2e6af6b35e227466ec6d5"},
+        "userID": "67bdcde27c642e2f9b2dc430",
+        "jobID": "67d2c55e720d05e71f40e381",
+        "managerID": {"$oid": "67bdcde27c642e2f9b2dc430"},
+        "currentTime": {"$date": "2025-03-13T14:07:43.151Z"},
+        "endTime": "2025-03-13T14:22:10.038683Z",
+        "steps": 30,
+        "coordinates": [],
+        "status": "Inactive",
+        "createdAt": {"$date": "2025-03-13T14:07:43.151Z"},
+        "updatedAt": {"$date": "2025-03-13T14:07:43.151Z"},
+        "images": [],
+        "lastUpdated": {"$date": "2025-03-13T14:20:26.515Z"}
+    },
+    {
+        "_id": {"$oid": "67d2ea82bdeb1399d16e90e7"},
+        "userID": "67bdcde27c642e2f9b2dc430",
+        "jobID": "67d2c55e720d05e71f40e381",
+        "managerID": {"$oid": "67bdcde27c642e2f9b2dc430"},
+        "currentTime": {"$date": "2025-03-13T14:24:02.030Z"},
+        "endTime": null,
+        "steps": 50,
+        "coordinates": [],
+        "status": "Active",
+        "createdAt": {"$date": "2025-03-13T14:24:02.030Z"},
+        "updatedAt": {"$date": "2025-03-13T14:24:02.030Z"},
+        "images": [],
+        "lastUpdated": {"$date": "2025-03-13T14:25:59.857Z"}
+    }
+]

@@ -1,0 +1,26 @@
+{
+  "name": "redline-backend",
+  "version": "1.0.0",
+  "description": "Redline Backend Serverless Application",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:pre-dev": "serverless deploy --stage pre-dev"
+  },
+  "keywords": [
+    "serverless",
+    "aws",
+    "lambda"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^3.40.0",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "serverless-offline": "^13.8.3",
+    "serverless-plugin-scripts": "^1.0.2",
+    "serverless-python-requirements": "^6.1.1"
+  }
+}

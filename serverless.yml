@@ -1,0 +1,968 @@
+useDotenv: true
+service: redline-backend-${self:provider.stage}
+frameworkVersion: "3"
+provider:
+  name: aws
+  region: ${env:REGION, 'us-east-1'}
+  runtime: python3.10
+  stage: ${opt:stage, 'dev'}
+  iam:
+    role:
+      name: redline-backend-${self:provider.stage}
+      statements:
+        - Effect: Allow
+          Action:
+            - "lambda:*"
+            - "iam:*"
+            - "cognito-idp:*"
+            - "ssm:*"
+            - "logs:*"
+            - "s3:*"
+            - "execute-api:*"
+          Resource: "*"
+  environment:
+    STAGE: ${self:provider.stage}
+    REGION: ${env:REGION}
+    DOC_DB_URI: ${env:DOC_DB_URI}
+    HOMEBASE_API_KEY: ${env:HOMEBASE_API_KEY}
+  vpc:
+    securityGroupIds:
+      - sg-02a1b84d20e6a7e89
+    subnetIds:
+      - subnet-077ba35eb979162c7
+      - subnet-0b6f4218e61c0021d
+# custom:
+#   scripts:
+#     hooks:
+#       before:package:initialize: chmod +x ./installLayers.sh && ./installLayers.sh
+layers:
+  pymongoDependency:
+    path: layers/pymongoDependency
+    description: Dependencies for pymongo
+  pytzDependency:
+    path: layers/pytzDependency
+    description: Dependencies for pytz
+  requestsDependency:
+    path: layers/requestsDependency
+    description: Dependencies for requests
+
+  FirebaseDependency:
+    path: layers/FirebaseDependency
+    description: Dependencies for FirebaseDependency
+
+functions:
+  userSignup:
+    name: user-signup-${self:provider.stage}
+    handler: src/api/signupCognito/signupCognito.handler
+    events:
+      - http:
+          path: /signup
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/signupCognito/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  loginCognito:
+    name: loginCognito-${self:provider.stage}
+    handler: src/api/loginCognito/loginCognito.handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/loginCognito/**
+        - src/helper/**
+    events:
+      - http:
+          method: post
+          path: /loginCognito
+          cors: true
+    timeout: 30
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  verifyEmail:
+    name: verifyEmail-${self:provider.stage}
+    handler: src/api/verifyEmail/verifyEmail.handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/verifyEmail/**
+        - src/helper/**
+    events:
+      - http:
+          method: post
+          path: /verifyEmail
+          cors: true
+    timeout: 30
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  forgotPasswordOtp:
+    name: forgotPasswordOtp-${self:provider.stage}
+    handler: src/api/forgotPasswordOtp/forgotPasswordOtp.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/forgotPasswordOtp/**
+        - src/helper/**
+    timeout: 5
+    memorySize: 256
+    events:
+      - http:
+          method: post
+          path: /forgotPasswordOtp
+          cors: true
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  forgotPasswordUpdate:
+    name: forgotPasswordUpdate-${self:provider.stage}
+    handler: src/api/forgotPasswordUpdate/forgotPasswordUpdate.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/forgotPasswordUpdate/**
+        - src/helper/**
+    timeout: 5
+    memorySize: 256
+    events:
+      - http:
+          method: post
+          path: /forgotPasswordUpdate
+          cors: true
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  getShiftDetails:
+    name: getShiftDetails-${self:provider.stage}
+    handler: src/api/getShiftDetails/getShiftDetails.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/getShiftDetails/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref PytzDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    events:
+      - http:
+          method: get
+          path: /getShiftDetails
+          cors: true
+  startShift:
+    name: startShift-${self:provider.stage}
+    handler: src/api/startShift/startShift.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/startShift/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    events:
+      - http:
+          method: post
+          path: /startShift
+          cors: true
+
+  shiftReCheck:
+    name: shiftCheck-${self:provider.stage}
+    handler: src/api/shiftReCheck/shiftReCheck.lambda_handler
+    events:
+      - http:
+          path: /shiftCheck
+          method: post
+          cors: true
+
+    memorySize: 256
+    timeout: 30
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/shiftReCheck/**
+        - src/helper/**
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+
+  stepTracker:
+    name: updateSteps-${self:provider.stage}
+    handler: src/api/stepTracker/stepTracker.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/stepTracker/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    events:
+      - http:
+          method: post
+          path: /updateSteps
+          cors: true
+
+  geoFenceUpdate:
+    name: websocket-handler-${self:provider.stage}
+    handler: src/api/geoFenceUpdate/geoFenceUpdate.lambda_handler
+    events:
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
+      - websocket:
+          route: updateLocation
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/geoFenceUpdate/**
+        - src/helper/**
+    timeout: 600
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref PytzDependencyLambdaLayer
+  geofenceAlert:
+    name: geofenceAlert-${self:provider.stage}
+    handler: src/api/geofenceAlert/geofenceAlert.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/geofenceAlert/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    events:
+      - http:
+          method: post
+          path: /geofenceAlert
+          cors: true
+
+  missedPhotoAlert:
+    name: missedPhotoAlert-${self:provider.stage}
+    handler: src/api/missedPhotoAlert/missedPhotoAlert.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/missedPhotoAlert/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    events:
+      - http:
+          method: post
+          path: /missedPhotoAlert
+          cors: true
+
+  jobDetails:
+    name: jobDetails-${self:provider.stage}
+    handler: src/api/jobDetails/jobDetails.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/jobDetails/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    events:
+      - http:
+          method: post
+          path: /jobDetails
+          cors: true
+
+  incidentReport:
+    name: incidentReport-${self:provider.stage}
+    handler: src/api/incidentReport/incidentReport.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/incidentReport/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    events:
+      - http:
+          method: post
+          path: /incidentReport
+          cors: true
+
+  fetchJobList:
+    name: fetchJobList-${self:provider.stage}
+    handler: src/api/fetchJobList/fetchJobList.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/fetchJobList/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    events:
+      - http:
+          method: get
+          path: /fetchJobList
+          cors: true
+  refreshToken:
+    name: user-refreshToken-${self:provider.stage}
+    handler: src/api/refreshToken/refreshToken.lambda_handler
+    events:
+      - http:
+          path: /refreshToken
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/refreshToken/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  resendOtp:
+    name: user-resendOtp-${self:provider.stage}
+    handler: src/api/resendOtp/resendOtp.lambda_handler
+    events:
+      - http:
+          path: /resendOtp
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/resendOtp/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  updateFCMToken:
+    name: updateFCMToken-${self:provider.stage}
+    handler: src/api/updateFCMToken/updateFCMToken.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/updateFCMToken/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+    events:
+      - http:
+          method: post
+          path: /updateFCMToken
+          cors: true
+
+  validateAccessToken:
+    name: user-validateAccessToken-${self:provider.stage}
+    handler: src/api/validateAccessToken/validateAccessToken.lambda_handler
+    events:
+      - http:
+          path: /validateAccessToken
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/validateAccessToken/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+  getSpecificJobDetail:
+    name: user-getSpecificJobDetail-${self:provider.stage}
+    handler: src/api/getSpecificJobDetail/getSpecificJobDetail.lambda_handler
+    events:
+      - http:
+          path: /getSpecificJobDetail
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/getSpecificJobDetail/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+  storeEditedUserDetails:
+    name: user-storeEditedUserDetails-${self:provider.stage}
+    handler: src/api/storeEditedUserDetails/storeEditedUserDetails.lambda_handler
+    events:
+      - http:
+          path: /storeEditedUserDetails
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/storeEditedUserDetails/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+  userEditRequest:
+    name: user-userEditRequest-${self:provider.stage}
+    handler: src/api/userEditRequest/userEditRequest.lambda_handler
+    events:
+      - http:
+          path: /userEditRequest
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/userEditRequest/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+  fetchEditedJobDetail:
+    name: user-fetchEditedJobDetail-${self:provider.stage}
+    handler: src/api/fetchEditedJobDetail/fetchEditedJobDetail.lambda_handler
+    events:
+      - http:
+          path: /fetchEditedJobDetail
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/fetchEditedJobDetail/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+  editJobDetailByManager:
+    name: user-editJobDetailByManager-${self:provider.stage}
+    handler: src/api/editJobDetailByManager/editJobDetailByManager.lambda_handler
+    events:
+      - http:
+          path: /editJobDetailByManager
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/editJobDetailByManager/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+  removeEditedDetail:
+    name: user-removeEditedDetail-${self:provider.stage}
+    handler: src/api/removeEditedDetail/removeEditedDetail.lambda_handler
+    events:
+      - http:
+          path: /removeEditedDetail
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/removeEditedDetail/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+  getUserData:
+    name: user-getUserData-${self:provider.stage}
+    handler: src/api/getUserData/getUserData.lambda_handler
+    events:
+      - http:
+          path: /getUserData
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/getUserData/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  insertImage:
+    name: insertImage-${self:provider.stage}
+    handler: src/api/insertImage/insertImage.lambda_handler
+    events:
+      - http:
+          path: /insertImage
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/insertImage/**
+        - src/helper/**
+    timeout: 29
+    memorySize: 512
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+
+  deleteJob:
+    name: user-deleteJob-${self:provider.stage}
+    handler: src/api/deleteJob/deleteJob.lambda_handler
+    events:
+      - http:
+          path: /deleteJob
+          method: post
+          cors: true
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/deleteJob/**
+        - src/helper/**
+    timeout: 10
+    memorySize: 128
+    layers:
+      - !Ref PymongoDependencyLambdaLayer
+      - !Ref RequestsDependencyLambdaLayer
+    environment:
+      USER_POOL_ID:
+        Ref: CognitoUserPool
+      USER_POOL_CLIENT_ID:
+        Ref: CognitoUserPoolClient
+
+  911CallAlert:
+    name: 911CallAlert-${self:provider.stage}
+    handler: src/api/911CallAlert/911CallAlert.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/911CallAlert/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref FirebaseDependencyLambdaLayer
+      - !Ref PymongoDependencyLambdaLayer
+
+    events:
+      - http:
+          method: post
+          path: /911CallAlert
+          cors: true
+
+  checkingreport:
+    name: checkingreport-${self:provider.stage}
+    handler: src/api/checkingreport/checkingreport.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/checkingreport/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref FirebaseDependencyLambdaLayer
+      - !Ref PymongoDependencyLambdaLayer
+
+    events:
+      - http:
+          method: post
+          path: /checkingreport
+          cors: true
+
+  insertImageToShift:
+    name: insertImageToShift-${self:provider.stage}
+    handler: src/api/insertImageToShift/insertImageToShift.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/insertImageToShift/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref RequestsDependencyLambdaLayer
+      - !Ref PymongoDependencyLambdaLayer
+
+    events:
+      - http:
+          method: post
+          path: /insertImageToShift
+          cors: true
+  getShiftImages:
+    name: getShiftImages-${self:provider.stage}
+    handler: src/api/getShiftImages/getShiftImages.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/getShiftImages/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref RequestsDependencyLambdaLayer
+      - !Ref PymongoDependencyLambdaLayer
+
+    events:
+      - http:
+          method: post
+          path: /getShiftImages
+          cors: true
+  storeShiftLogs:
+    name: storeShiftLogs-${self:provider.stage}
+    handler: src/api/storeShiftLogs/storeShiftLogs.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/storeShiftLogs/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref RequestsDependencyLambdaLayer
+      - !Ref PymongoDependencyLambdaLayer
+
+    events:
+      - http:
+          method: post
+          path: /storeShiftLogs
+          cors: true
+  endSession:
+    name: endSession-${self:provider.stage}
+    handler: src/api/endSession/endSession.lambda_handler
+    package:
+      individually: true
+      patterns:
+        - "!src/**"
+        - "!./**"
+        - src/api/endSession/**
+        - src/helper/**
+    timeout: 20
+    memorySize: 256
+    layers:
+      - !Ref RequestsDependencyLambdaLayer
+      - !Ref PymongoDependencyLambdaLayer
+
+    events:
+      - http:
+          method: post
+          path: /endSession
+          cors: true
+
+resources:
+  Resources:
+    CognitoUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: !Sub redline-firewatch-userpool-${self:provider.stage}
+        AccountRecoverySetting:
+          RecoveryMechanisms:
+            - Name: verified_email
+              Priority: 1
+        AdminCreateUserConfig:
+          AllowAdminCreateUserOnly: false
+        MfaConfiguration: "OFF"
+        AutoVerifiedAttributes:
+          - email
+        UsernameAttributes:
+          - email
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 6
+            RequireLowercase: false
+            RequireNumbers: false
+            RequireSymbols: false
+            RequireUppercase: false
+        Schema:
+          - Name: email
+            AttributeDataType: String
+            Mutable: true
+            Required: true
+          - Name: Name
+            AttributeDataType: String
+            Mutable: true
+        VerificationMessageTemplate:
+          DefaultEmailOption: CONFIRM_WITH_CODE
+          EmailSubject: "Redline firewatch Verification Code"
+
+    CognitoUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: !Sub AppClient-${self:provider.stage}
+        UserPoolId: !Ref CognitoUserPool
+        SupportedIdentityProviders:
+          - COGNITO
+        ExplicitAuthFlows:
+          - ALLOW_ADMIN_USER_PASSWORD_AUTH
+          - ALLOW_USER_PASSWORD_AUTH
+          - ALLOW_REFRESH_TOKEN_AUTH
+          - ALLOW_USER_SRP_AUTH
+          - ALLOW_CUSTOM_AUTH
+        GenerateSecret: false
+        IdTokenValidity: 1440
+        AccessTokenValidity: 1440 # Changed to 24 hours (1 day)
+        RefreshTokenValidity: 7
+        TokenValidityUnits:
+          AccessToken: "minutes"
+          IdToken: "minutes"
+          RefreshToken: "days"
+
+    WebSocketAPI:
+      Type: AWS::ApiGatewayV2::Api
+      Properties:
+        Name: redline-websocket-api-${self:provider.stage}
+        ProtocolType: WEBSOCKET
+        RouteSelectionExpression: "$request.body.action"
+
+    WebSocketDeployment:
+      Type: AWS::ApiGatewayV2::Deployment
+      DependsOn:
+        - WebSocketConnectRoute
+        - WebSocketDisconnectRoute
+        - WebSocketLocationRoute
+      Properties:
+        ApiId: !Ref WebSocketAPI
+
+    WebSocketStage:
+      Type: AWS::ApiGatewayV2::Stage
+      Properties:
+        ApiId: !Ref WebSocketAPI
+        DeploymentId: !Ref WebSocketDeployment
+        StageName: ${self:provider.stage}
+        AutoDeploy: true
+        DefaultRouteSettings:
+          ThrottlingBurstLimit: 100
+          ThrottlingRateLimit: 50
+
+    WebSocketConnectRoute:
+      Type: AWS::ApiGatewayV2::Route
+      Properties:
+        ApiId: !Ref WebSocketAPI
+        RouteKey: $connect
+        AuthorizationType: NONE
+        OperationName: ConnectRoute
+        Target: !Join
+          - "/"
+          - - "integrations"
+            - !Ref WebSocketConnectInteg
+
+    WebSocketConnectInteg:
+      Type: AWS::ApiGatewayV2::Integration
+      Properties:
+        ApiId: !Ref WebSocketAPI
+        Description: Connect Integration
+        IntegrationType: AWS_PROXY
+        IntegrationUri:
+          Fn::Join:
+            - ""
+            - - "arn:aws:apigateway:"
+              - !Ref AWS::Region
+              - ":lambda:path/2015-03-31/functions/"
+              - !GetAtt GeoFenceUpdateLambdaFunction.Arn
+              - "/invocations"
+
+    WebSocketDisconnectRoute:
+      Type: AWS::ApiGatewayV2::Route
+      Properties:
+        ApiId: !Ref WebSocketAPI
+        RouteKey: $disconnect
+        AuthorizationType: NONE
+        OperationName: DisconnectRoute
+        Target: !Join
+          - "/"
+          - - "integrations"
+            - !Ref WebSocketConnectInteg
+
+    WebSocketLocationRoute:
+      Type: AWS::ApiGatewayV2::Route
+      Properties:
+        ApiId: !Ref WebSocketAPI
+        RouteKey: updateLocation
+        AuthorizationType: NONE
+        OperationName: LocationRoute
+        Target: !Join
+          - "/"
+          - - "integrations"
+            - !Ref WebSocketConnectInteg
+plugins:
+  - serverless-plugin-scripts
